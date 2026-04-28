@@ -65,7 +65,7 @@ button:hover{transform:translateY(-1px);border-color:var(--cyan)}
 .kpi span{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:900;letter-spacing:.8px}
 .kpi b{display:block;font-size:24px;margin-top:5px}
 .mapPanel{position:relative;overflow:hidden;min-height:720px}
-#graph{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+#graph{width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
 #graph:active{cursor:grabbing}
 .mapHud{position:absolute;left:16px;bottom:16px;right:16px;display:flex;justify-content:space-between;align-items:end;pointer-events:none;gap:12px}
 .hudBox{pointer-events:auto;background:rgba(4,9,21,.74);border:1px solid var(--line);border-radius:18px;padding:12px 14px;color:var(--muted);font-size:12px;backdrop-filter:blur(14px)}
@@ -89,7 +89,7 @@ button:hover{transform:translateY(-1px);border-color:var(--cyan)}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:60;padding:18px}
 .modal.show{display:flex}
 .modalCard{max-width:980px;width:100%;max-height:88vh;overflow:auto;background:#f7fbff;color:#102033;border-radius:28px;padding:28px;box-shadow:0 40px 140px rgba(0,0,0,.6)}
-.modalCard h2{margin:0 0 10px;font-size:30px;font-family:Georgia,serif}
+.modalCard h2{font-family:"Brush Script MT","Segoe Script",cursive;margin:0 0 10px;font-size:30px;font-family:Georgia,serif}
 .reportGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
 .reportCard{background:white;border:1px solid #d8e4ef;border-radius:18px;padding:14px}
 .reportCard span{display:block;color:#637487;font-size:11px;text-transform:uppercase;font-weight:900;letter-spacing:.7px}
@@ -123,6 +123,67 @@ button:hover{transform:translateY(-1px);border-color:var(--cyan)}
 .challengeTop{position:sticky;top:0;z-index:3;background:#f7fbff;border-bottom:1px solid #d8e4ef;padding-bottom:12px;margin-bottom:14px}
 .challengeOpt{min-height:58px;display:flex;align-items:center;line-height:1.35}
 .investigateHint{background:#fff8e6;border:1px solid #f0cf73;color:#5a4512;border-radius:16px;padding:12px;margin:10px 0;font-size:14px}
+
+
+/* Mobile-first refinements */
+.mobileNodeInfoBtn{display:none}
+@media(max-width:760px){
+  html,body{overflow:auto}
+  .app{padding:8px;gap:10px}
+  .topbar{padding:12px;border-radius:18px;gap:10px}
+  .brand{align-items:flex-start}
+  .logo{width:46px;height:46px;border-radius:15px}
+  h1{font-size:16px;line-height:1.2;white-space:normal}
+  .brand p{font-size:11px}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  .actions button{width:100%;padding:13px 10px;font-size:13px}
+  .searchBox input{padding:13px 14px;font-size:15px}
+  .workspace{grid-template-columns:1fr;gap:10px;min-height:0}
+  .left{order:1;max-height:none;padding:14px}
+  .mapPanel{order:2;height:430px;min-height:430px;border-radius:20px}
+  .side{order:3;max-height:none;min-height:0;padding:14px;border-radius:20px}
+  #graph{touch-action:pan-y}
+  .mapHud{left:10px;right:10px;bottom:10px;align-items:stretch;flex-direction:column}
+  .hudBox{font-size:11px;padding:9px 10px;border-radius:14px}
+  .legend{grid-template-columns:1fr 1fr;display:grid}
+  .kpiGrid{grid-template-columns:1fr 1fr}
+  .nodeTitle h2{font-size:20px}
+  .desc{font-size:14px}
+  .relationships{max-height:240px;overflow:auto}
+  .modal{align-items:flex-end;padding:0;background:rgba(0,0,0,.72)}
+  .modalCard{
+    width:100%;max-width:none;max-height:92vh;border-radius:24px 24px 0 0;
+    padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  .modalCard h2{font-family:"Brush Script MT","Segoe Script",cursive;font-size:24px;line-height:1.1}
+  .reportGrid{grid-template-columns:1fr;gap:8px}
+  .challengeTop{top:0;padding-top:4px}
+  .challengeQuestion{padding:14px;border-radius:16px}
+  .challengeQuestion h3{font-size:17px}
+  .challengeQuestion p{font-size:14px}
+  .challengeOpt{min-height:64px;font-size:14px;padding:12px}
+  .closeBtn,.primary{width:100%;margin-top:8px}
+  .certPremium{padding:16px;border-radius:18px}
+  .certInput{font-size:16px}
+}
+@media(max-width:420px){
+  .mapPanel{height:390px;min-height:390px}
+  .actions{grid-template-columns:1fr}
+  .legend{grid-template-columns:1fr}
+  .kpiGrid{grid-template-columns:1fr 1fr}
+  .kpi b{font-size:20px}
+  .pathItem{font-size:11px}
+}
+@media(hover:none) and (pointer:coarse){
+  button,.challengeOpt,.rel,.tag{min-height:44px}
+}
+
+.challengeTop .closeBtn{margin:8px 0 0}.modalCard::-webkit-scrollbar{width:8px}.modalCard::-webkit-scrollbar-thumb{background:#9db0c5;border-radius:999px}
+
+.brand h1{
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  letter-spacing: 1px;
+}
 
 </style>
 </head>
@@ -163,7 +224,7 @@ button:hover{transform:translateY(-1px);border-color:var(--cyan)}
     <section class="panel mapPanel">
       <canvas id="graph"></canvas>
       <div class="mapHud">
-        <div class="hudBox">Arraste nós · Scroll para zoom · Arraste fundo para pan</div>
+        <div class="hudBox">Arraste nós · Zoom no desktop · No celular, toque e arraste com cuidado</div>
         <div class="hudBox" id="modeHud">Modo: exploração livre</div>
       </div>
     </section>
@@ -236,7 +297,7 @@ function screenToWorld(px,py){const rect=canvas.getBoundingClientRect();return {
 function worldToScreen(x,y){const rect=canvas.getBoundingClientRect();return {x:rect.left+canvas.clientWidth/2+view.x+x*view.scale,y:rect.top+canvas.clientHeight/2+view.y+y*view.scale}}
 function hitTest(px,py){
  const p=screenToWorld(px,py);
- for(let i=nodes.length-1;i>=0;i--){const n=nodes[i];if(!n.visible)continue;const d=Math.hypot(p.x-n.x,p.y-n.y);if(d<n.r+6)return n}
+ for(let i=nodes.length-1;i>=0;i--){const n=nodes[i];if(!n.visible)continue;const d=Math.hypot(p.x-n.x,p.y-n.y);if(d<n.r+(window.matchMedia('(pointer: coarse)').matches?18:8))return n}
  return null;
 }
 canvas.addEventListener("mousedown",e=>{const n=hitTest(e.clientX,e.clientY);last={x:e.clientX,y:e.clientY};if(n){drag=n;selected=n;renderSide();}else dragBg=true;});
@@ -250,8 +311,50 @@ window.addEventListener("mousemove",e=>{
  }
 });
 window.addEventListener("mouseup",()=>{drag=null;dragBg=false;});
-canvas.addEventListener("click",e=>{const n=hitTest(e.clientX,e.clientY);if(n){selected=n;if(investigation)buildPath(n);renderSide();}});
+canvas.addEventListener("click",e=>{
+ const n=hitTest(e.clientX,e.clientY);
+ if(n){
+  selected=n;
+  if(investigation)buildPath(n);
+  renderSide();
+  if(window.innerWidth<=760){
+    setTimeout(()=>document.getElementById("side").scrollIntoView({behavior:"smooth",block:"start"}),80);
+  }
+ }
+});
 canvas.addEventListener("wheel",e=>{e.preventDefault();const factor=e.deltaY<0?1.1:.9;view.scale=Math.max(.42,Math.min(2.5,view.scale*factor));},{passive:false});
+
+let touchDraggingNode=false, touchPanning=false;
+canvas.addEventListener("touchstart",e=>{
+ if(!e.touches || e.touches.length!==1) return;
+ const t=e.touches[0];
+ const n=hitTest(t.clientX,t.clientY);
+ last={x:t.clientX,y:t.clientY};
+ if(n){
+  e.preventDefault();
+  drag=n; selected=n; touchDraggingNode=true; renderSide();
+ } else {
+  touchPanning=false;
+ }
+},{passive:false});
+canvas.addEventListener("touchmove",e=>{
+ if(!e.touches || e.touches.length!==1) return;
+ const t=e.touches[0];
+ if(drag){
+  e.preventDefault();
+  const p=screenToWorld(t.clientX,t.clientY);
+  drag.x=p.x; drag.y=p.y; drag.vx=drag.vy=0;
+ } else {
+  // deixa a página rolar normalmente fora dos nós
+ }
+},{passive:false});
+canvas.addEventListener("touchend",e=>{
+ if(touchDraggingNode && selected && window.innerWidth<=760){
+   setTimeout(()=>document.getElementById("side").scrollIntoView({behavior:"smooth",block:"start"}),100);
+ }
+ drag=null; touchDraggingNode=false; touchPanning=false;
+},{passive:true});
+
 
 function resetView(){selected=null;hover=null;highlightPath=[];investigation=false;document.getElementById("modeHud").textContent="Modo: exploração livre";view={x:0,y:0,scale:1};renderSide();}
 function toggleInvestigation(){investigation=!investigation;highlightPath=[];document.getElementById("modeHud").textContent=investigation?"Modo: investigação · clique em uma entidade":"Modo: exploração livre"; if(selected&&investigation)buildPath(selected);}
@@ -396,6 +499,7 @@ function answerChallenge(qid, text){
  const opt=q.options.find(o=>o.text===decoded);
  challengeAnswers[qid]={text:opt.text,score:opt.score,comment:opt.comment};
  showChallenge();
+ setTimeout(()=>document.getElementById('modalCard')?.scrollTo({top:0,behavior:'smooth'}),30);
 }
 function challengeScore(){
  const raw=Object.values(challengeAnswers).reduce((s,a)=>s+a.score,0);
@@ -427,7 +531,7 @@ function downloadPremiumCert(){
  ctx.strokeStyle="#b8942f";ctx.lineWidth=18;ctx.strokeRect(70,70,1660,1060);
  ctx.strokeStyle="#102033";ctx.lineWidth=4;ctx.strokeRect(105,105,1590,990);
  ctx.fillStyle="#102033";ctx.textAlign="center";
- ctx.font="bold 62px Georgia";ctx.fillText("Certificado Premium",900,220);
+ ctx.font="bold 62px Georgia";ctx.fillText("Certificado",900,220);
  ctx.font="24px Arial";ctx.fillStyle="#64748b";ctx.fillText("Mariana BS · CTI Intelligence Map",900,265);
  ctx.font="30px Arial";ctx.fillStyle="#102033";ctx.fillText("Certificamos que",900,365);
  ctx.font="bold 58px Georgia";ctx.fillText(name,900,445);
